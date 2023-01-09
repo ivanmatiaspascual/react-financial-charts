@@ -15,7 +15,7 @@
         "strict": true,
         "target": "es2017",
         "declarationMap": true,
-        "inlineSources": true
+        "sourceRoot": "../react-financial-charts/packages/series/src"
     },
     "include": [
         "src"
