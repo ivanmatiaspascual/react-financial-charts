@@ -11,7 +11,8 @@
     },
     "publish": {
       "preDistTag": "next",
-      "noGitReset": true
+      "noGitReset": true,
+      "tag": "sp1"
     },
     "version": {
       "allowBranch": "main",
