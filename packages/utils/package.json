@@ -1,6 +1,6 @@
 {
-  "name": "@react-financial-charts/utils",
-  "version": "1.3.0",
+  "name": "@ivanmatiaspascual/utils",
+  "version": "1.3.0-sp1-beta.0.1.0",
   "description": "Utils for react-financial-charts",
   "publishConfig": {
     "access": "public"
@@ -27,7 +27,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/reactivemarkets/react-financial-charts.git"
+    "url": "https://github.com/ivanmatiaspascual/react-financial-charts.git"
   },
   "bugs": {
     "url": "https://github.com/reactivemarkets/react-financial-charts/issues"

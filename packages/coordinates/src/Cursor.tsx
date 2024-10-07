@@ -5,7 +5,7 @@ import {
     getMouseCanvas,
     last,
     strokeDashTypes,
-} from "@react-financial-charts/core";
+} from "@ivanmatiaspascual/core";
 import * as PropTypes from "prop-types";
 import * as React from "react";
 
