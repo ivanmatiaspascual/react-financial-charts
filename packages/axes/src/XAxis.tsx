@@ -37,7 +37,6 @@ export interface XAxisProps<T extends number | Date> {
     readonly xZoomHeight?: number;
     readonly zoomEnabled?: boolean;
     readonly zoomCursorClassName?: string;
-    readonly onZoom?: (e: any, moreProps: any) => void;
 }
 
 export class XAxis<T extends number | Date> extends React.Component<XAxisProps<T>> {
@@ -103,12 +102,8 @@ export class XAxis<T extends number | Date> extends React.Component<XAxisProps<T
 
     private readonly axisZoomCallback = (e: any, newXDomain: number[]) => {
         const { xAxisZoom } = this.context;
-        const { onZoom } = this.props;
-        xAxisZoom(newXDomain);
-        if (onZoom) {
-            const { chartConfig } = this.context;
-            onZoom(e, { chartConfig });
-        }
+
+        xAxisZoom(e, newXDomain);
     };
 
     private readonly helper = () => {

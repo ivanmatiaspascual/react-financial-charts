@@ -37,7 +37,6 @@ export interface YAxisProps {
     readonly yZoomWidth?: number;
     readonly zoomEnabled?: boolean;
     readonly zoomCursorClassName?: string;
-    readonly onZoom?: (e: any, moreProps: any) => void;
 }
 
 export class YAxis extends React.Component<YAxisProps> {
@@ -102,12 +101,8 @@ export class YAxis extends React.Component<YAxisProps> {
 
     private readonly axisZoomCallback = (e: any, newYDomain: number[]) => {
         const { chartId, yAxisZoom } = this.context;
-        const { onZoom } = this.props;
-        yAxisZoom(chartId, newYDomain);
-        if (onZoom) {
-            const { chartConfig } = this.context;
-            onZoom(e, { chartConfig });
-        }
+
+        yAxisZoom(e, chartId, newYDomain);
     };
 
     private readonly helper = () => {
