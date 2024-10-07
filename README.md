@@ -12,6 +12,19 @@ Charts dedicated to finance.
 
 The aim with this project is create financial charts that work out of the box.
 
+## Prerequisites
+
+This project requires NodeJS (version 16 or later) and NPM.
+[Node](http://nodejs.org/) and [NPM](https://npmjs.org/) are really easy to install.
+To make sure you have them available on your machine,
+try running the following command.
+
+```sh
+$ npm -v && node -v
+8.19.4
+v16.20.2
+```
+
 ## Features
 
 - integrates multiple chart types
@@ -74,7 +87,7 @@ To get started run:
 ```bash
 git clone https://github.com/react-financial/react-financial-charts.git
 cd react-financial-charts
-npm ci
+npm ci --lockfile-version 1
 npm run build
 ```
 
