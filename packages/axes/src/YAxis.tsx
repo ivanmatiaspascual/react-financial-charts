@@ -99,10 +99,10 @@ export class YAxis extends React.Component<YAxisProps> {
         );
     }
 
-    private readonly axisZoomCallback = (newYDomain: number[]) => {
+    private readonly axisZoomCallback = (e: any, newYDomain: number[]) => {
         const { chartId, yAxisZoom } = this.context;
 
-        yAxisZoom(chartId, newYDomain);
+        yAxisZoom(e, chartId, newYDomain);
     };
 
     private readonly helper = () => {

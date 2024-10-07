@@ -10,6 +10,7 @@ interface ClickCallbackProps {
     readonly onMouseMove?: (e: React.MouseEvent<Element, MouseEvent>, moreProps: any) => void;
     readonly onPan?: (e: React.MouseEvent<Element, MouseEvent>, moreProps: any) => void;
     readonly onPanEnd?: (e: React.MouseEvent<Element, MouseEvent>, moreProps: any) => void;
+    readonly onZoom?: (e: React.MouseEvent<Element, MouseEvent>, moreProps: any) => void;
 }
 
 export class ClickCallback extends React.Component<ClickCallbackProps> {
@@ -18,7 +19,7 @@ export class ClickCallback extends React.Component<ClickCallbackProps> {
     };
 
     public render() {
-        const { onMouseDown, onClick, onDoubleClick, onContextMenu, onMouseMove, onPan, onPanEnd } = this.props;
+        const { onMouseDown, onClick, onDoubleClick, onContextMenu, onMouseMove, onPan, onPanEnd, onZoom } = this.props;
 
         return (
             <GenericChartComponent
@@ -29,8 +30,9 @@ export class ClickCallback extends React.Component<ClickCallbackProps> {
                 onMouseMove={onMouseMove}
                 onPan={onPan}
                 onPanEnd={onPanEnd}
+                onZoom={onZoom}
                 canvasToDraw={getMouseCanvas}
-                drawOn={["mousemove", "pan"]}
+                drawOn={["mousemove", "pan", "zoom"]}
             />
         );
     }

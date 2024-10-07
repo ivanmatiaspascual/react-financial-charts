@@ -782,7 +782,7 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         );
     };
 
-    public xAxisZoom = (newDomain: any) => {
+    public xAxisZoom = (e: any, newDomain: any) => {
         const { xScale, plotData, chartConfig } = this.calculateStateForDomain(newDomain);
         this.clearThreeCanvas();
 
@@ -795,6 +795,16 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         const lastItem = last(fullData);
         const scale_end = last(xScale.domain());
         const data_end = xAccessor!(lastItem);
+
+        this.triggerEvent(
+            "zoom",
+            {
+                xScale,
+                plotData,
+                chartConfig,
+            },
+            e,
+        );
 
         const { onLoadAfter, onLoadBefore } = this.props;
 
@@ -819,7 +829,7 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         );
     };
 
-    public yAxisZoom = (chartId: string, newDomain: any) => {
+    public yAxisZoom = (e: any, chartId: string, newDomain: any) => {
         this.clearThreeCanvas();
         const { chartConfig: initialChartConfig } = this.state;
         const chartConfig = initialChartConfig.map((each: any) => {
@@ -834,6 +844,17 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
                 return each;
             }
         });
+
+        const { xScale, plotData } = this.state;
+        this.triggerEvent(
+            "zoom",
+            {
+                xScale,
+                plotData,
+                chartConfig,
+            },
+            e,
+        );
 
         this.setState({
             chartConfig,
