@@ -133,7 +133,7 @@ export class TrendLine extends React.Component<TrendLineProps, TrendLineState> {
 
                     return (
                         <EachTrendLine
-                            enabled={enabled}
+                            enabled={enabled && !drawing}
                             key={idx}
                             ref={this.saveNodeType(idx)}
                             index={idx}
