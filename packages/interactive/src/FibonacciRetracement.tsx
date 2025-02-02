@@ -5,8 +5,10 @@ import { isHoverForInteractiveType, saveNodeType, terminate } from "./utils";
 import { EachFibRetracement } from "./wrapper";
 
 interface FibonacciRetracementProps {
-    readonly enabled: boolean; // Enable edition (modification and creation)
-    readonly drawing: boolean; // Enable drawing mode (new fibonacci retracement)
+    readonly mode:
+        | "CREATION" // Drawing new fibonacci retracement
+        | "MODIFICATION" // Edit existing fibonacci retracement
+        | "NONE"; // Lock existing fibonacci retracement
     readonly width?: number;
     readonly onStart?: (moreProps: any) => void;
     readonly onComplete?: (e: React.MouseEvent, newRetracements: any[], moreProps: any) => void;
@@ -106,7 +108,7 @@ export class FibonacciRetracement extends React.Component<FibonacciRetracementPr
             type,
         } = this.props;
 
-        const { enabled, drawing, hoverText } = this.props;
+        const { mode, hoverText } = this.props;
         const overrideIndex = isDefined(override) ? override.index : null;
         const hoverTextWidthDefault = {
             ...FibonacciRetracement.defaultProps.hoverText,
@@ -136,7 +138,7 @@ export class FibonacciRetracement extends React.Component<FibonacciRetracementPr
 
                     return (
                         <EachFibRetracement
-                            enabled={enabled && !drawing}
+                            enabled={mode === "MODIFICATION"}
                             key={idx}
                             ref={this.saveNodeType(idx)}
                             index={idx}
@@ -152,7 +154,7 @@ export class FibonacciRetracement extends React.Component<FibonacciRetracementPr
                 })}
                 {currentRetracement}
                 <MouseLocationIndicator
-                    enabled={enabled && drawing}
+                    enabled={mode === "CREATION"}
                     snap={false}
                     r={currentPositionRadius}
                     stroke={currentPositionStroke}

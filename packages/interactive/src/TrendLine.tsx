@@ -6,8 +6,10 @@ import { EachTrendLine } from "./wrapper";
 
 export interface TrendLineProps {
     readonly snap: boolean;
-    readonly enabled: boolean; // Enable edition (modification and creation)
-    readonly drawing: boolean; // Enable drawing mode (new trendlines)
+    readonly mode:
+        | "CREATION" // Drawing new trendlines
+        | "MODIFICATION" // Edit existing trendlines
+        | "NONE"; // Lock existing trendlines
     readonly snapTo?: (datum: any) => number | number[];
     readonly shouldDisableSnap?: (e: React.MouseEvent) => boolean;
     readonly onStart: (e: React.MouseEvent, moreProps: any) => void;
@@ -94,8 +96,7 @@ export class TrendLine extends React.Component<TrendLineProps, TrendLineState> {
             currentPositionRadius = TrendLine.defaultProps.currentPositionRadius,
             currentPositionStroke,
             currentPositionStrokeWidth,
-            enabled,
-            drawing,
+            mode,
             hoverText,
             shouldDisableSnap,
             snap,
@@ -133,7 +134,7 @@ export class TrendLine extends React.Component<TrendLineProps, TrendLineState> {
 
                     return (
                         <EachTrendLine
-                            enabled={enabled && !drawing}
+                            enabled={mode === "MODIFICATION"}
                             key={idx}
                             ref={this.saveNodeType(idx)}
                             index={idx}
@@ -161,7 +162,7 @@ export class TrendLine extends React.Component<TrendLineProps, TrendLineState> {
                 })}
                 {tempLine}
                 <MouseLocationIndicator
-                    enabled={enabled && drawing}
+                    enabled={mode === "CREATION"}
                     snap={snap}
                     shouldDisableSnap={shouldDisableSnap}
                     snapTo={snapTo}
