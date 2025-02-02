@@ -5,7 +5,8 @@ import { isHoverForInteractiveType, saveNodeType, terminate } from "./utils";
 import { EachFibRetracement } from "./wrapper";
 
 interface FibonacciRetracementProps {
-    readonly enabled: boolean;
+    readonly enabled: boolean; // Enable edition (modification and creation)
+    readonly drawing: boolean; // Enable drawing mode (new fibonacci retracement)
     readonly width?: number;
     readonly onStart?: (moreProps: any) => void;
     readonly onComplete?: (e: React.MouseEvent, newRetracements: any[], moreProps: any) => void;
@@ -42,7 +43,6 @@ interface FibonacciRetracementState {
 
 export class FibonacciRetracement extends React.Component<FibonacciRetracementProps, FibonacciRetracementState> {
     public static defaultProps = {
-        enabled: true,
         type: "RAY",
         retracements: [],
         onSelect: noop,
@@ -106,7 +106,7 @@ export class FibonacciRetracement extends React.Component<FibonacciRetracementPr
             type,
         } = this.props;
 
-        const { enabled, hoverText } = this.props;
+        const { enabled, drawing, hoverText } = this.props;
         const overrideIndex = isDefined(override) ? override.index : null;
         const hoverTextWidthDefault = {
             ...FibonacciRetracement.defaultProps.hoverText,
@@ -136,6 +136,7 @@ export class FibonacciRetracement extends React.Component<FibonacciRetracementPr
 
                     return (
                         <EachFibRetracement
+                            enabled={enabled && !drawing}
                             key={idx}
                             ref={this.saveNodeType(idx)}
                             index={idx}
@@ -151,7 +152,7 @@ export class FibonacciRetracement extends React.Component<FibonacciRetracementPr
                 })}
                 {currentRetracement}
                 <MouseLocationIndicator
-                    enabled={enabled}
+                    enabled={enabled && drawing}
                     snap={false}
                     r={currentPositionRadius}
                     stroke={currentPositionStroke}
