@@ -1,4 +1,4 @@
-import { strokeDashTypes } from "@react-financial-charts/core";
+import { strokeDashTypes } from "@ivanmatiaspascual/core";
 import * as PropTypes from "prop-types";
 import * as React from "react";
 import { Axis } from "./Axis";
@@ -99,10 +99,10 @@ export class YAxis extends React.Component<YAxisProps> {
         );
     }
 
-    private readonly axisZoomCallback = (newYDomain: number[]) => {
+    private readonly axisZoomCallback = (e: any, newYDomain: number[]) => {
         const { chartId, yAxisZoom } = this.context;
 
-        yAxisZoom(chartId, newYDomain);
+        yAxisZoom(e, chartId, newYDomain);
     };
 
     private readonly helper = () => {

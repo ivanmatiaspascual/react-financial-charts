@@ -1,11 +1,12 @@
 import * as React from "react";
 import { ascending as d3Ascending } from "d3-array";
-import { noop, strokeDashTypes } from "@react-financial-charts/core";
-import { getXValue } from "@react-financial-charts/core/lib/utils/ChartDataUtil";
+import { noop, strokeDashTypes } from "@ivanmatiaspascual/core";
+import { getXValue } from "@ivanmatiaspascual/core/lib/utils/ChartDataUtil";
 import { isHover, saveNodeType } from "../utils";
 import { ClickableCircle, HoverTextNearMouse, InteractiveStraightLine } from "../components";
 
 export interface EachTrendLineProps {
+    readonly enabled: boolean;
     readonly x1Value: any;
     readonly x2Value: any;
     readonly y1Value: any;
@@ -87,6 +88,7 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
 
     public render() {
         const {
+            enabled,
             x1Value,
             y1Value,
             x2Value,
@@ -119,7 +121,7 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
             <g>
                 <InteractiveStraightLine
                     ref={this.saveNodeType("line")}
-                    selected={selected || hover}
+                    selected={enabled && (selected || hover)}
                     onHover={this.handleHover}
                     onUnHover={this.handleHover}
                     x1Value={x1Value}
@@ -128,7 +130,7 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
                     y2Value={y2Value}
                     type={type}
                     strokeStyle={strokeStyle}
-                    strokeWidth={hover || selected ? strokeWidth + 1 : strokeWidth}
+                    strokeWidth={enabled && (hover || selected) ? strokeWidth + 1 : strokeWidth}
                     strokeDasharray={strokeDasharray}
                     interactiveCursorClass={lineInteractiveCursor}
                     onDragStart={this.handleLineDragStart}
@@ -137,7 +139,7 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
                 />
                 <ClickableCircle
                     ref={this.saveNodeType("edge1")}
-                    show={selected || hover}
+                    show={enabled && (selected || hover)}
                     cx={x1Value}
                     cy={y1Value}
                     r={r}
@@ -151,7 +153,7 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
                 />
                 <ClickableCircle
                     ref={this.saveNodeType("edge2")}
-                    show={selected || hover}
+                    show={enabled && (selected || hover)}
                     cx={x2Value}
                     cy={y2Value}
                     r={r}

@@ -45,6 +45,7 @@ interface GenericComponentProps {
     readonly onMouseDown?: (e: React.MouseEvent, moreProps: any) => void;
     readonly onHover?: (e: React.MouseEvent, moreProps: any) => void;
     readonly onUnHover?: (e: React.MouseEvent, moreProps: any) => void;
+    readonly onZoom?: (e: React.MouseEvent, moreProps: any) => void;
     readonly selected?: boolean;
 }
 
@@ -154,6 +155,10 @@ export class GenericComponent extends React.Component<GenericComponentProps, Gen
 
         switch (type) {
             case "zoom":
+                if (this.props.onZoom) {
+                    this.props.onZoom(e, this.getMoreProps());
+                }
+                break;
             case "mouseenter":
                 // DO NOT DRAW FOR THESE EVENTS
                 break;
