@@ -11,7 +11,6 @@ interface InteractiveTextProps {
     readonly onSelect?: (e: React.MouseEvent, interactives: any[], moreProps: any) => void;
     readonly defaultText: {
         readonly bgFill: string;
-        readonly bgOpacity: number;
         readonly bgStrokeWidth?: number;
         readonly bgStroke?: string;
         readonly textFill: string;
@@ -39,7 +38,6 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
         onSelect: noop,
         defaultText: {
             bgFill: "#D3D3D3",
-            bgOpacity: 1,
             bgStrokeWidth: 1,
             textFill: "#F10040",
             fontFamily: "-apple-system, system-ui, Roboto, 'Helvetica Neue', Ubuntu, sans-serif",
