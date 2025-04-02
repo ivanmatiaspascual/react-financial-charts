@@ -23,7 +23,10 @@ interface InteractiveTextProps {
     };
     readonly hoverText: object;
     readonly textList: any[];
-    readonly enabled: boolean;
+    readonly mode:
+        | "CREATION" // Drawing new texts
+        | "MODIFICATION" // Edit existing texts
+        | "NONE"; // Lock existing texts
 }
 
 interface InteractiveTextState {
@@ -81,7 +84,7 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
     }
 
     public render() {
-        const { textList, defaultText, hoverText } = this.props;
+        const { textList, defaultText, hoverText, mode } = this.props;
         const { override } = this.state;
         return (
             <g>
@@ -98,6 +101,7 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
                     };
                     return (
                         <EachText
+                            enabled={mode === "MODIFICATION"}
                             key={idx}
                             ref={this.saveNodeType(idx)}
                             index={idx}
@@ -121,8 +125,8 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
     }
 
     private readonly handleDraw = (e: React.MouseEvent, moreProps: any) => {
-        const { enabled } = this.props;
-        if (enabled) {
+        const { mode } = this.props;
+        if (mode === "CREATION") {
             const {
                 mouseXY: [, mouseY],
                 chartConfig: { yScale },
