@@ -4,6 +4,7 @@ import { isHover, saveNodeType } from "../utils";
 import { HoverTextNearMouse, InteractiveText } from "../components";
 
 export interface EachTextProps {
+    readonly enabled: boolean;
     readonly index?: number;
     readonly position?: any;
     readonly bgFill: string;
@@ -72,6 +73,7 @@ export class EachText extends React.Component<EachTextProps, EachTextState> {
 
     public render() {
         const {
+            enabled,
             position,
             bgFill,
             bgStroke,
@@ -104,7 +106,7 @@ export class EachText extends React.Component<EachTextProps, EachTextState> {
             <g>
                 <InteractiveText
                     ref={this.saveNodeType("text")}
-                    selected={selected || hover}
+                    selected={enabled && (selected || hover)}
                     interactiveCursorClass="react-financial-charts-move-cursor"
                     {...hoverHandler}
                     onDragStart={this.handleDragStart}
@@ -122,7 +124,7 @@ export class EachText extends React.Component<EachTextProps, EachTextState> {
                     text={text}
                 />
                 <HoverTextNearMouse
-                    show={hoverTextEnabled && hover}
+                    show={enabled && hoverTextEnabled && hover}
                     {...restHoverTextProps}
                     text={selected ? hoverTextSelected : hoverTextUnselected}
                 />
