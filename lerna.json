@@ -12,7 +12,8 @@
     "publish": {
       "preDistTag": "next",
       "noGitReset": true,
-      "tag": "sp2"
+      "tag": "sp2",
+      "exact": true
     },
     "version": {
       "allowBranch": "main",
