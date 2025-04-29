@@ -164,7 +164,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
                         <g key={j}>
                             <InteractiveStraightLine
                                 ref={this.saveNodeType(`line_${j}`)}
-                                selected={enabled && (selected || hover)}
+                                selected={enabled && selected}
                                 {...hoverHandler}
                                 type={lineType}
                                 x1Value={line.x1}
@@ -189,7 +189,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
                             </Text>
                             <ClickableCircle
                                 ref={this.saveNodeType("edge1")}
-                                show={enabled && (selected || hover)}
+                                show={enabled && selected}
                                 cx={line.x1}
                                 cy={line.y}
                                 r={r}
@@ -202,7 +202,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
                             />
                             <ClickableCircle
                                 ref={this.saveNodeType("edge2")}
-                                show={enabled && (selected || hover)}
+                                show={enabled && selected}
                                 cx={line.x2}
                                 cy={line.y}
                                 r={r}
