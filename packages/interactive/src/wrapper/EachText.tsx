@@ -106,7 +106,7 @@ export class EachText extends React.Component<EachTextProps, EachTextState> {
             <g>
                 <InteractiveText
                     ref={this.saveNodeType("text")}
-                    selected={enabled && (selected || hover)}
+                    selected={enabled && selected}
                     interactiveCursorClass="react-financial-charts-move-cursor"
                     {...hoverHandler}
                     onDragStart={this.handleDragStart}
@@ -115,11 +115,11 @@ export class EachText extends React.Component<EachTextProps, EachTextState> {
                     position={position}
                     bgFillStyle={bgFill}
                     bgStroke={bgStroke || textFill}
-                    bgStrokeWidth={bgStrokeWidth}
+                    bgStrokeWidth={enabled && selected ? bgStrokeWidth : 0}
                     textFill={textFill}
                     fontFamily={fontFamily}
                     fontStyle={fontStyle}
-                    fontWeight={fontWeight}
+                    fontWeight={enabled && hover ? "bolder" : fontWeight}
                     fontSize={fontSize}
                     text={text}
                 />
