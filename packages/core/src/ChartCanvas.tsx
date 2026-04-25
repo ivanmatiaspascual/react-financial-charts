@@ -838,7 +838,7 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
                 return {
                     ...each,
                     yScale: yScale.copy().domain(newDomain),
-                    yPanEnabled: true,
+                    yPanEnabled: true, // Esto fija el eje en y para que ya no se haga resize automaticamente a medida que hacemos pan
                 };
             } else {
                 return each;
@@ -1133,8 +1133,10 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         });
     };
 
-    public handleDoubleClick = (_: number[], e: React.MouseEvent) => {
-        this.triggerEvent("dblclick", {}, e);
+    public handleDoubleClick = (mouseXY: number[], e: React.MouseEvent) => {
+        const { chartConfig } = this.state;
+        const currentCharts = getCurrentCharts(chartConfig, mouseXY);
+        this.triggerEvent("dblclick", { currentCharts }, e);
     };
 
     public getChildContext() {
