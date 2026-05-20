@@ -31,7 +31,7 @@
     "test": "lerna run test --stream",
     "prestart": "npm run build",
     "prepublishOnly": "npm run build",
-    "publish": "lerna publish from-package --yes",
+    "publish": "lerna publish from-package --yes --no-verify-access",
     "release": "lerna version --yes",
     "release:pre": "lerna version --conventional-prerelease --yes",
     "release:grad": "lerna version --conventional-graduate --yes",
