@@ -1,11 +1,13 @@
 import * as React from "react";
 
-import { getMouseCanvas, GenericChartComponent } from "@react-financial-charts/core";
+import { getMouseCanvas, GenericChartComponent } from "@ivanmatiaspascual/core";
 
 export interface ClickableCircleProps {
     readonly onDragStart?: (e: React.MouseEvent, moreProps: any) => void;
     readonly onDrag?: (e: React.MouseEvent, moreProps: any) => void;
     readonly onDragComplete?: (e: React.MouseEvent, moreProps: any) => void;
+    readonly onHover?: (e: React.MouseEvent, moreProps: any) => void;
+    readonly onUnHover?: (e: React.MouseEvent, moreProps: any) => void;
     readonly strokeWidth: number;
     readonly strokeStyle: string;
     readonly fillStyle: string;
@@ -25,7 +27,7 @@ export class ClickableCircle extends React.Component<ClickableCircleProps> {
     };
 
     public render() {
-        const { interactiveCursorClass, onDragStart, onDrag, onDragComplete, show } = this.props;
+        const { interactiveCursorClass, onDragStart, onDrag, onDragComplete, onHover, onUnHover, show } = this.props;
 
         if (!show) {
             return null;
@@ -41,6 +43,8 @@ export class ClickableCircle extends React.Component<ClickableCircleProps> {
                 onDragComplete={onDragComplete}
                 canvasDraw={this.drawOnCanvas}
                 canvasToDraw={getMouseCanvas}
+                onHover={onHover}
+                onUnHover={onUnHover}
                 drawOn={["pan", "mousemove", "drag"]}
             />
         );

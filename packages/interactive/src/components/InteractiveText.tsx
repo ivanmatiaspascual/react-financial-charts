@@ -1,5 +1,5 @@
 import * as React from "react";
-import { getMouseCanvas, GenericChartComponent } from "@react-financial-charts/core";
+import { getMouseCanvas, GenericChartComponent } from "@ivanmatiaspascual/core";
 
 export interface InteractiveTextProps {
     readonly bgFillStyle: string;
@@ -82,8 +82,18 @@ export class InteractiveText extends React.Component<InteractiveTextProps> {
     };
 
     private readonly drawOnCanvas = (ctx: CanvasRenderingContext2D, moreProps: any) => {
-        const { bgFillStyle, bgStrokeWidth, bgStroke, textFill, fontFamily, fontSize, fontStyle, fontWeight, text } =
-            this.props;
+        const {
+            bgFillStyle,
+            bgStrokeWidth,
+            bgStroke,
+            textFill,
+            fontFamily,
+            fontSize,
+            fontStyle,
+            fontWeight,
+            text,
+            //selected
+        } = this.props;
 
         if (this.calculateTextWidth) {
             ctx.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
@@ -92,22 +102,24 @@ export class InteractiveText extends React.Component<InteractiveTextProps> {
             this.calculateTextWidth = false;
         }
 
-        const { selected } = this.props;
-
         const { x, y, rect } = this.helper(moreProps, this.textWidth ?? 0);
 
-        ctx.fillStyle = bgFillStyle;
+        if (bgStrokeWidth > 0) {
+            ctx.fillStyle = bgFillStyle; // color for background
+        } else {
+            ctx.fillStyle = "rgba(0, 0, 0, 0)";
+        }
 
         ctx.beginPath();
-        ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
+        ctx.fillRect(rect.x, rect.y, rect.width, rect.height); // draw background rect assuming height of font
 
-        if (selected) {
+        if (bgStrokeWidth > 0) {
             ctx.strokeStyle = bgStroke;
             ctx.lineWidth = bgStrokeWidth;
             ctx.strokeRect(rect.x, rect.y, rect.width, rect.height);
         }
 
-        ctx.fillStyle = textFill;
+        ctx.fillStyle = textFill; // text color
         ctx.textBaseline = "middle";
         ctx.textAlign = "center";
         ctx.font = `${fontStyle} ${fontWeight} ${fontSize}px ${fontFamily}`;
