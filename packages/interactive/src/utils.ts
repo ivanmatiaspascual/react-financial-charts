@@ -18,18 +18,20 @@ export function terminate() {
 export function saveNodeType(type: any) {
     return (node: any) => {
         // @ts-ignore
-        if (isDefined(this.nodes)) {
+        if (isNotDefined(this.nodes)) {
             // @ts-ignore
-            if (isNotDefined(node) && isDefined(this.nodes[type])) {
+            this.nodes = [];
+        }
+        // @ts-ignore
+        if (isNotDefined(node)) {
+            // @ts-ignore
+            if (isDefined(this.nodes[type])) {
                 // @ts-ignore
                 delete this.nodes[type];
-            } else {
-                // @ts-ignore
-                this.nodes[type] = node;
             }
         } else {
             // @ts-ignore
-            this.nodes = [];
+            this.nodes[type] = node;
         }
     };
 }
