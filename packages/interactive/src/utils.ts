@@ -42,12 +42,18 @@ export function isHoverForInteractiveType(interactiveType: any) {
         // @ts-ignore
         if (isDefined(this.nodes)) {
             // @ts-ignore
-            const selecedNodes = this.nodes.map((node) => node.isHover(moreProps));
+            const selecedNodes: boolean[] = this.nodes.map((node) => node.isHover(moreProps));
             // @ts-ignore
             const interactive = this.props[interactiveType].map((t, idx) => {
+                let enabled = true;
+                // @ts-ignore
+                if (isDefined(this.nodes[idx].props.enabled)) {
+                    // @ts-ignore
+                    enabled = this.nodes[idx].props.enabled; // EachText.props.enabled
+                }
                 return {
                     ...t,
-                    selected: selecedNodes[idx],
+                    selected: enabled && selecedNodes[idx],
                 };
             });
             return interactive;
