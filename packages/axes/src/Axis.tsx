@@ -5,7 +5,7 @@ import {
     getStrokeDasharrayCanvas,
     last,
     strokeDashTypes,
-} from "@react-financial-charts/core";
+} from "@ivanmatiaspascual/core";
 import { range as d3Range, zip } from "d3-array";
 import { forceCollide, forceSimulation, forceX } from "d3-force";
 import { ScaleContinuousNumeric } from "d3-scale";
@@ -13,7 +13,7 @@ import * as React from "react";
 import { AxisZoomCapture } from "./AxisZoomCapture";
 
 interface AxisProps {
-    readonly axisZoomCallback?: (domain: number[]) => void;
+    readonly axisZoomCallback?: (e: any, domain: number[]) => void;
     readonly bg: {
         h: number;
         x: number;

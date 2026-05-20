@@ -1,4 +1,4 @@
-import { ChartContext, strokeDashTypes } from "@react-financial-charts/core";
+import { ChartContext, strokeDashTypes } from "@ivanmatiaspascual/core";
 import * as React from "react";
 import { Axis } from "./Axis";
 
@@ -96,10 +96,10 @@ export class XAxis<T extends number | Date> extends React.Component<XAxisProps<T
         );
     }
 
-    private readonly axisZoomCallback = (newXDomain: number[]) => {
+    private readonly axisZoomCallback = (e: any, newXDomain: number[]) => {
         const { xAxisZoom } = this.context;
 
-        xAxisZoom(newXDomain);
+        xAxisZoom(e, newXDomain);
     };
 
     private readonly helper = () => {

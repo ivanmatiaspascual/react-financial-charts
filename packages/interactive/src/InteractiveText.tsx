@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ChartContext, GenericChartComponent, getMouseCanvas, isDefined, noop } from "@react-financial-charts/core";
+import { ChartContext, GenericChartComponent, getMouseCanvas, isDefined, noop } from "@ivanmatiaspascual/core";
 import { HoverTextNearMouse } from "./components";
 import { getValueFromOverride, isHoverForInteractiveType, saveNodeType, terminate } from "./utils";
 import { EachText } from "./wrapper";
@@ -10,7 +10,6 @@ interface InteractiveTextProps {
     readonly onSelect?: (e: React.MouseEvent, interactives: any[], moreProps: any) => void;
     readonly defaultText: {
         readonly bgFill: string;
-        readonly bgOpacity: number;
         readonly bgStrokeWidth?: number;
         readonly bgStroke?: string;
         readonly textFill: string;
@@ -22,7 +21,10 @@ interface InteractiveTextProps {
     };
     readonly hoverText: object;
     readonly textList: any[];
-    readonly enabled: boolean;
+    readonly mode:
+        | "CREATION" // Drawing new texts
+        | "MODIFICATION" // Edit existing texts
+        | "NONE"; // Lock existing texts
 }
 
 interface InteractiveTextState {
@@ -35,7 +37,6 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
         onSelect: noop,
         defaultText: {
             bgFill: "#D3D3D3",
-            bgOpacity: 1,
             bgStrokeWidth: 1,
             textFill: "#F10040",
             fontFamily: "-apple-system, system-ui, Roboto, 'Helvetica Neue', Ubuntu, sans-serif",
@@ -75,7 +76,7 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
     }
 
     public render() {
-        const { textList, defaultText, hoverText } = this.props;
+        const { textList, defaultText, hoverText, mode } = this.props;
         const { override } = this.state;
         return (
             <g>
@@ -92,6 +93,7 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
                     };
                     return (
                         <EachText
+                            enabled={mode === "MODIFICATION"}
                             key={idx}
                             ref={this.saveNodeType(idx)}
                             index={idx}
@@ -115,8 +117,8 @@ export class InteractiveText extends React.Component<InteractiveTextProps, Inter
     }
 
     private readonly handleDraw = (e: React.MouseEvent, moreProps: any) => {
-        const { enabled } = this.props;
-        if (enabled) {
+        const { mode } = this.props;
+        if (mode === "CREATION") {
             const {
                 mouseXY: [, mouseY],
                 chartConfig: { yScale },

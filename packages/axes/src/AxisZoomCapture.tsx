@@ -10,14 +10,14 @@ import {
     TOUCHEND,
     TOUCHMOVE,
     touchPosition,
-} from "@react-financial-charts/core";
+} from "@ivanmatiaspascual/core";
 import { mean } from "d3-array";
 import { ScaleContinuousNumeric } from "d3-scale";
 import { select, pointer } from "d3-selection";
 import * as React from "react";
 
 export interface AxisZoomCaptureProps {
-    readonly axisZoomCallback?: (domain: number[]) => void;
+    readonly axisZoomCallback?: (e: any, domain: number[]) => void;
     readonly bg: {
         h: number;
         x: number;
@@ -144,7 +144,7 @@ export class AxisZoomCapture extends React.Component<AxisZoomCaptureProps, AxisZ
             ) {
                 const { axisZoomCallback } = this.props;
                 if (axisZoomCallback !== undefined) {
-                    axisZoomCallback(newDomain);
+                    axisZoomCallback(e, newDomain);
                 }
             }
         }

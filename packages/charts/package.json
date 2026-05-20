@@ -1,7 +1,10 @@
 {
-    "name": "react-financial-charts",
+    "name": "@ivanmatiaspascual/react-financial-charts",
     "version": "2.0.1",
     "description": "React charts specific to finance.",
+    "publishConfig": {
+        "access": "public"
+    },
     "main": "./lib/index.js",
     "typings": "./lib/index.d.ts",
     "files": [
@@ -23,10 +26,10 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/reactivemarkets/react-financial-charts.git"
+        "url": "https://github.com/ivanmatiaspascual/react-financial-charts.git"
     },
     "bugs": {
-        "url": "https://github.com/reactivemarkets/react-financial-charts/issues"
+        "url": "https://github.com/ivanmatiaspascual/react-financial-charts/issues"
     },
     "scripts": {
         "build": "npm run clean && npm run compile",
@@ -34,16 +37,16 @@
         "compile": "tsc -p tsconfig.json"
     },
     "dependencies": {
-        "@react-financial-charts/annotations": "file:../annotations",
-        "@react-financial-charts/axes": "file:../axes",
-        "@react-financial-charts/coordinates": "file:../coordinates",
-        "@react-financial-charts/core": "file:../core",
-        "@react-financial-charts/indicators": "file:../indicators",
-        "@react-financial-charts/interactive": "file:../interactive",
-        "@react-financial-charts/scales": "file:../scales",
-        "@react-financial-charts/series": "file:../series",
-        "@react-financial-charts/tooltip": "file:../tooltip",
-        "@react-financial-charts/utils": "file:../utils"
+        "@ivanmatiaspascual/annotations": "file:../annotations",
+        "@ivanmatiaspascual/axes": "file:../axes",
+        "@ivanmatiaspascual/coordinates": "file:../coordinates",
+        "@ivanmatiaspascual/core": "file:../core",
+        "@ivanmatiaspascual/indicators": "file:../indicators",
+        "@ivanmatiaspascual/interactive": "file:../interactive",
+        "@ivanmatiaspascual/scales": "file:../scales",
+        "@ivanmatiaspascual/series": "file:../series",
+        "@ivanmatiaspascual/tooltip": "file:../tooltip",
+        "@ivanmatiaspascual/utils": "file:../utils"
     },
     "peerDependencies": {
         "react": "^16.0.0 || ^17.0.0 || ^18.0.0",

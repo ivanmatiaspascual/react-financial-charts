@@ -9,7 +9,9 @@
         },
         "publish": {
             "preDistTag": "next",
-            "noGitReset": true
+            "noGitReset": true,
+            "tag": "sp1",
+            "exact": true
         },
         "version": {
             "allowBranch": "main",

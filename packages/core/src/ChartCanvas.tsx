@@ -79,8 +79,8 @@ export interface ChartCanvasContextType<TXAxis extends number | Date> {
     // Not sure if it should be optional
     xAccessor: (data: any) => TXAxis;
     displayXAccessor: (data: any) => TXAxis;
-    xAxisZoom?: (newDomain: any) => void;
-    yAxisZoom?: (chartId: string, newDomain: any) => void;
+    xAxisZoom?: (e: any, newDomain: any) => void;
+    yAxisZoom?: (e: any, chartId: string, newDomain: any) => void;
     redraw: () => void;
     plotData: any[];
     fullData: any[];
@@ -845,7 +845,7 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         );
     };
 
-    public xAxisZoom = (newDomain: any) => {
+    public xAxisZoom = (e: any, newDomain: any) => {
         const { xScale, plotData, chartConfigs } = this.calculateStateForDomain(newDomain);
         this.clearThreeCanvas();
 
@@ -857,6 +857,16 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         const lastItem = last(fullData);
         const scale_end = last(xScale.domain());
         const data_end = xAccessor!(lastItem);
+
+        this.triggerEvent(
+            "zoom",
+            {
+                xScale,
+                plotData,
+                chartConfigs,
+            },
+            e,
+        );
 
         const { onLoadAfter, onLoadBefore } = this.props;
 
@@ -881,7 +891,7 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         );
     };
 
-    public yAxisZoom = (chartId: string, newDomain: any) => {
+    public yAxisZoom = (e: any, chartId: string, newDomain: any) => {
         this.clearThreeCanvas();
         const { chartConfigs: initialChartConfig } = this.state;
         const chartConfigs = initialChartConfig.map((each: any) => {
@@ -890,12 +900,23 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
                 return {
                     ...each,
                     yScale: yScale.copy().domain(newDomain),
-                    yPanEnabled: true,
+                    yPanEnabled: true, // Esto fija el eje en y para que ya no se haga resize automaticamente a medida que hacemos pan
                 };
             } else {
                 return each;
             }
         });
+
+        const { xScale, plotData } = this.state;
+        this.triggerEvent(
+            "zoom",
+            {
+                xScale,
+                plotData,
+                chartConfigs,
+            },
+            e,
+        );
 
         this.setState({
             chartConfigs,
@@ -1172,8 +1193,10 @@ export class ChartCanvas<TXAxis extends number | Date> extends React.Component<
         });
     };
 
-    public handleDoubleClick = (_: number[], e: React.MouseEvent) => {
-        this.triggerEvent("dblclick", {}, e);
+    public handleDoubleClick = (mouseXY: number[], e: React.MouseEvent) => {
+        const { chartConfigs } = this.state;
+        const currentCharts = getCurrentCharts(chartConfigs, mouseXY);
+        this.triggerEvent("dblclick", { currentCharts }, e);
     };
 
     // TODO: Memoize this
