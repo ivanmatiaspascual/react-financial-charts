@@ -13,7 +13,7 @@ import * as React from "react";
 import { AxisZoomCapture } from "./AxisZoomCapture";
 
 interface AxisProps {
-    readonly axisZoomCallback?: (domain: number[]) => void;
+    readonly axisZoomCallback?: (e: any, domain: number[]) => void;
     readonly bg: {
         h: number;
         x: number;

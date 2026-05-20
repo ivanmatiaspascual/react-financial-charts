@@ -6,6 +6,7 @@ import { isHover, saveNodeType } from "../utils";
 import { ClickableCircle, HoverTextNearMouse, InteractiveStraightLine } from "../components";
 
 export interface EachTrendLineProps {
+    readonly enabled: boolean;
     readonly x1Value: any;
     readonly x2Value: any;
     readonly y1Value: any;
@@ -49,6 +50,8 @@ export interface EachTrendLineProps {
 interface EachTrendLineState {
     anchor?: string;
     hover?: any;
+    hoverEdge1?: boolean;
+    hoverEdge2?: boolean;
 }
 
 export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrendLineState> {
@@ -87,6 +90,7 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
 
     public render() {
         const {
+            enabled,
             x1Value,
             y1Value,
             x2Value,
@@ -113,13 +117,13 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
             ...restHoverTextProps
         } = hoverText;
 
-        const { hover, anchor } = this.state;
+        const { hover, hoverEdge1, hoverEdge2, anchor } = this.state;
 
         return (
             <g>
                 <InteractiveStraightLine
                     ref={this.saveNodeType("line")}
-                    selected={selected || hover}
+                    selected={enabled && selected}
                     onHover={this.handleHover}
                     onUnHover={this.handleHover}
                     x1Value={x1Value}
@@ -128,7 +132,7 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
                     y2Value={y2Value}
                     type={type}
                     strokeStyle={strokeStyle}
-                    strokeWidth={hover || selected ? strokeWidth + 1 : strokeWidth}
+                    strokeWidth={enabled && hover ? strokeWidth + 2 : strokeWidth}
                     strokeDasharray={strokeDasharray}
                     interactiveCursorClass={lineInteractiveCursor}
                     onDragStart={this.handleLineDragStart}
@@ -137,13 +141,15 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
                 />
                 <ClickableCircle
                     ref={this.saveNodeType("edge1")}
-                    show={selected || hover}
+                    show={enabled && selected}
+                    onHover={this.handleHoverEdge1}
+                    onUnHover={this.handleHoverEdge1}
                     cx={x1Value}
                     cy={y1Value}
                     r={r}
                     fillStyle={edgeFill}
                     strokeStyle={anchor === "edge1" ? strokeStyle : edgeStroke}
-                    strokeWidth={edgeStrokeWidth}
+                    strokeWidth={enabled && hoverEdge1 ? edgeStrokeWidth + 2 : edgeStrokeWidth}
                     interactiveCursorClass={edgeInteractiveCursor}
                     onDragStart={this.handleEdge1DragStart}
                     onDrag={this.handleEdge1Drag}
@@ -151,13 +157,15 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
                 />
                 <ClickableCircle
                     ref={this.saveNodeType("edge2")}
-                    show={selected || hover}
+                    show={enabled && selected}
+                    onHover={this.handleHoverEdge2}
+                    onUnHover={this.handleHoverEdge2}
                     cx={x2Value}
                     cy={y2Value}
                     r={r}
                     fillStyle={edgeFill}
                     strokeStyle={anchor === "edge2" ? strokeStyle : edgeStroke}
-                    strokeWidth={edgeStrokeWidth}
+                    strokeWidth={enabled && hoverEdge2 ? edgeStrokeWidth + 2 : edgeStrokeWidth}
                     interactiveCursorClass={edgeInteractiveCursor}
                     onDragStart={this.handleEdge2DragStart}
                     onDrag={this.handleEdge2Drag}
@@ -176,6 +184,22 @@ export class EachTrendLine extends React.Component<EachTrendLineProps, EachTrend
         if (this.state.hover !== moreProps.hovering) {
             this.setState({
                 hover: moreProps.hovering,
+            });
+        }
+    };
+
+    private readonly handleHoverEdge1 = (_: React.MouseEvent, moreProps: any) => {
+        if (this.state.hoverEdge1 !== moreProps.hovering) {
+            this.setState({
+                hoverEdge1: moreProps.hovering,
+            });
+        }
+    };
+
+    private readonly handleHoverEdge2 = (_: React.MouseEvent, moreProps: any) => {
+        if (this.state.hoverEdge2 !== moreProps.hovering) {
+            this.setState({
+                hoverEdge2: moreProps.hovering,
             });
         }
     };

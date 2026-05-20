@@ -1,6 +1,6 @@
 {
   "name": "@ivanmatiaspascual/utils",
-  "version": "1.3.0",
+  "version": "1.3.0-sp1-rc",
   "description": "Utils for react-financial-charts",
   "publishConfig": {
     "access": "public"

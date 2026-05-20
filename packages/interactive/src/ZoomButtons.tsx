@@ -123,23 +123,23 @@ export class ZoomButtons extends React.Component<ZoomButtonsProps> {
         );
     }
 
-    private readonly handleZoomIn = () => {
+    private readonly handleZoomIn = (e: any) => {
         if (this.interval) {
             return;
         }
 
-        this.zoom(-1);
+        this.zoom(e, -1);
     };
 
-    private readonly handleZoomOut = () => {
+    private readonly handleZoomOut = (e: any) => {
         if (this.interval) {
             return;
         }
 
-        this.zoom(1);
+        this.zoom(e, 1);
     };
 
-    private readonly zoom = (direction: number) => {
+    private readonly zoom = (e: any, direction: number) => {
         const { xAxisZoom, xScale, plotData, xAccessor } = this.context;
 
         const cx = xScale(xAccessor(last(plotData)));
@@ -162,7 +162,7 @@ export class ZoomButtons extends React.Component<ZoomButtonsProps> {
         });
 
         this.interval = window.setInterval(() => {
-            xAxisZoom(foo.shift());
+            xAxisZoom(e, foo.shift());
             if (foo.length === 0) {
                 clearInterval(this.interval);
                 delete this.interval;

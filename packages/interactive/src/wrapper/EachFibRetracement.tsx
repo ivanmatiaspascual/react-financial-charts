@@ -6,6 +6,7 @@ import { ClickableCircle, HoverTextNearMouse, InteractiveStraightLine, generateL
 import { getNewXY } from "./EachTrendLine";
 
 export interface EachFibRetracementProps {
+    readonly enabled: boolean;
     readonly x1: any;
     readonly x2: any;
     readonly y1: number;
@@ -87,6 +88,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
     }
 
     public render() {
+        const { enabled } = this.props;
         const { x1, x2, y1, y2 } = this.props;
         const { interactive, yDisplayFormat, type, appearance } = this.props;
         const { strokeStyle, strokeWidth } = appearance;
@@ -162,7 +164,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
                         <g key={j}>
                             <InteractiveStraightLine
                                 ref={this.saveNodeType(`line_${j}`)}
-                                selected={selected || hover}
+                                selected={enabled && selected}
                                 {...hoverHandler}
                                 type={lineType}
                                 x1Value={line.x1}
@@ -170,7 +172,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
                                 x2Value={line.x2}
                                 y2Value={line.y}
                                 strokeStyle={strokeStyle}
-                                strokeWidth={hover || selected ? strokeWidth + 1 : strokeWidth}
+                                strokeWidth={enabled && (hover || selected) ? strokeWidth + 1 : strokeWidth}
                                 interactiveCursorClass={interactiveCursorClass}
                                 onDragStart={this.handleLineDragStart}
                                 onDrag={dragHandler}
@@ -187,7 +189,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
                             </Text>
                             <ClickableCircle
                                 ref={this.saveNodeType("edge1")}
-                                show={selected || hover}
+                                show={enabled && selected}
                                 cx={line.x1}
                                 cy={line.y}
                                 r={r}
@@ -200,7 +202,7 @@ export class EachFibRetracement extends React.Component<EachFibRetracementProps,
                             />
                             <ClickableCircle
                                 ref={this.saveNodeType("edge2")}
-                                show={selected || hover}
+                                show={enabled && selected}
                                 cx={line.x2}
                                 cy={line.y}
                                 r={r}

@@ -20,6 +20,7 @@ export interface LabelProps {
     readonly xScale?: ScaleContinuousNumeric<number, number>;
     readonly y: number | ((yScale: ScaleContinuousNumeric<number, number>, datum: any, plotData: any[]) => number);
     readonly yScale?: ScaleContinuousNumeric<number, number>;
+    readonly leading?: number;
 }
 
 export class Label extends React.Component<LabelProps> {
@@ -31,6 +32,7 @@ export class Label extends React.Component<LabelProps> {
         rotate: 0,
         x: ({ xScale, xAccessor, datum }: any) => xScale(xAccessor(datum)),
         selectCanvas: (canvases: any) => canvases.bg,
+        leading: 16,
     };
 
     public static contextTypes = {
@@ -47,13 +49,13 @@ export class Label extends React.Component<LabelProps> {
     }
 
     private readonly drawOnCanvas = (ctx: CanvasRenderingContext2D, moreProps: any) => {
-        ctx.save();
+        const previousTransformationMatrix = ctx.getTransform();
 
-        const { textAlign = "center", fontFamily, fontSize, fontWeight, rotate } = this.props;
+        const { textAlign = "center", fontFamily, fontSize, fontWeight, rotate, leading } = this.props;
 
         const { canvasOriginX, canvasOriginY, margin, ratio } = this.context;
 
-        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset transformation matrix
         ctx.scale(ratio, ratio);
 
         if (canvasOriginX !== undefined) {
@@ -68,7 +70,6 @@ export class Label extends React.Component<LabelProps> {
 
         const { xPos, yPos, fillStyle, text } = this.helper(moreProps, xAccessor, xScale, yScale);
 
-        ctx.save();
         ctx.translate(xPos, yPos);
         if (rotate !== undefined) {
             const radians = (rotate / 180) * Math.PI;
@@ -76,19 +77,44 @@ export class Label extends React.Component<LabelProps> {
             ctx.rotate(radians);
         }
 
+        const previousFont = ctx.font;
         if (fontFamily !== undefined) {
             ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
         }
+        const previousFillStyle = ctx.fillStyle;
         if (fillStyle !== undefined) {
             ctx.fillStyle = fillStyle;
         }
+        const previousTextAlign = ctx.textAlign;
         if (textAlign !== undefined) {
             ctx.textAlign = textAlign;
         }
 
         ctx.beginPath();
-        ctx.fillText(text, 0, 0);
-        ctx.restore();
+        let texts: string[] = [];
+        if (text) {
+            texts = text.split("\n");
+        }
+        const x = 0;
+        let y = 0;
+        let offset = 0;
+        if (fontSize !== undefined) {
+            offset += fontSize;
+        }
+        if (leading !== undefined) {
+            offset += leading;
+        }
+        for (let i = 0; i < texts.length; i++) {
+            const text = texts[i];
+            ctx.fillText(text, x, y);
+            y += offset;
+        }
+
+        // Restore
+        ctx.setTransform(previousTransformationMatrix);
+        ctx.font = previousFont;
+        ctx.fillStyle = previousFillStyle;
+        ctx.textAlign = previousTextAlign;
     };
 
     private readonly helper = (
@@ -96,7 +122,12 @@ export class Label extends React.Component<LabelProps> {
         xAccessor: any,
         xScale: ScaleContinuousNumeric<number, number>,
         yScale: ScaleContinuousNumeric<number, number>,
-    ) => {
+    ): {
+        xPos: number;
+        yPos: number;
+        text: string | undefined;
+        fillStyle: string | undefined;
+    } => {
         const { x, y, datum, fillStyle, text } = this.props;
 
         const { plotData } = moreProps;
