@@ -1,6 +1,6 @@
 {
     "name": "@ivanmatiaspascual/tooltip",
-    "version": "2.0.0-sp1-beta.0.0.1",
+    "version": "2.0.0-sp1-beta.0.0.2",
     "description": "Tooltips for react-financial-charts",
     "publishConfig": {
         "access": "public"
